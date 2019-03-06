@@ -1,27 +1,14 @@
 package me.shib.bugaudit.cli;
 
-import me.shib.bugaudit.commons.BugAuditResult;
-import me.shib.bugaudit.probe.ProbeScanner;
-import me.shib.bugaudit.tracker.BatWorker;
-
-import java.util.ArrayList;
-import java.util.List;
+import me.shib.bugaudit.core.BugAudit;
 
 public class Main {
 
-    public static List<Exception> audit() {
-        List<Exception> exceptions = new ArrayList<>();
-        List<BugAuditResult> results = ProbeScanner.getAuditResultsFromScanners();
-        for (BugAuditResult result : results) {
-            try {
-                BatWorker batWorker = new BatWorker(result);
-                batWorker.processResult();
-            } catch (Exception e) {
-                e.printStackTrace();
-                exceptions.add(e);
-            }
+    public static void main(String[] args) {
+        if (BugAudit.audit().size() > 0) {
+            System.exit(1);
         }
-        return exceptions;
     }
+
 
 }
