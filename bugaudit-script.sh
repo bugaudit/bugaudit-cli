@@ -10,7 +10,7 @@
 #export BUGAUDIT_TRACKER_CONFIG="config/file/path"
 #export BUGAUDIT_PROBE_DIR="dub/directory/to/scan"
 
-if [ ! -z "$BUGAUDIT_CLI_TOKEN" ]; then
+if [ ! -z "$BUGAUDIT_PROBE_DIR" ]; then
    cd $BUGAUDIT_PROBE_DIR
 fi
 
