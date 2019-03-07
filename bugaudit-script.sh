@@ -8,6 +8,11 @@
 #export GIT_URL="https://github.com/test/test.git"
 #export BUGAUDIT_CLI_TOKEN="BugAuditCLIToken"
 #export BUGAUDIT_TRACKER_CONFIG="config/file/path"
+#export BUGAUDIT_PROBE_DIR="dub/directory/to/scan"
+
+if [ ! -z "$BUGAUDIT_CLI_TOKEN" ]; then
+   cd $BUGAUDIT_PROBE_DIR
+fi
 
 GITHUB_TOKEN_PARAMETER=""
 if [ ! -z "$BUGAUDIT_CLI_TOKEN" ]; then
