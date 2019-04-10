@@ -103,7 +103,7 @@
                                 <fileSet>
                                     <directory>${project.build.directory}</directory>
                                     <includes>
-                                        <include>runnable-${project.artifactId}-${project.version}.jar</include>
+                                        <include>run-${project.artifactId}-${project.version}.jar</include>
                                     </includes>
                                 </fileSet>
                                 <fileSet>
