@@ -106,13 +106,6 @@
                                         <include>run-${project.artifactId}-${project.version}.jar</include>
                                     </includes>
                                 </fileSet>
-                                <fileSet>
-                                    <directory>${project.basedir}</directory>
-                                    <includes>
-                                        <include>jenkins-script.sh</include>
-                                        <include>jira-config.json</include>
-                                    </includes>
-                                </fileSet>
                             </fileSets>
                         </configuration>
                     </execution>
