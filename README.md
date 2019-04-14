@@ -1,5 +1,5 @@
 # BugAudit CLI
-[![Build Status](https://travis-ci.org/shibme/bugaudit-cli.svg)](https://travis-ci.org/shibme/bugaudit-cli)
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/shibme/bugaudit-cli.svg)](http://isitmaintained.com/project/shibme/bugaudit-cli "Percentage of issues still open")
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/me.shib.bugaudit/bugaudit-cli/badge.svg)](https://maven-badges.herokuapp.com/maven-central/me.shib.bugaudit/bugaudit-cli)
+[![Build Status](https://gitlab.com/bugaudit/bugaudit-cli/badges/master/pipeline.svg)](https://gitlab.com/bugaudit/bugaudit-cli/pipelines)
 
-Core utility that connects the probe and tracker frameworks
+Command Line Interface for BugAudit
