@@ -31,7 +31,7 @@ if [ ! -z "$GITHUB_ACCESS_TOKEN" ]; then
 fi
 
 #Setting Repo and API URL
-TOOL_REPO="shibme/bugaudit-cli"
+TOOL_REPO="bugaudit/bugaudit-cli"
 API_URL="https://api.github.com/repos/$TOOL_REPO"
 
 #Saving latest release info to assets.json

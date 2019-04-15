@@ -51,7 +51,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <finalName>runnable-${project.artifactId}-${project.version}</finalName>
+                    <finalName>run-${project.artifactId}-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -96,7 +96,7 @@
                             <overwriteArtifact>true</overwriteArtifact>
                             <releaseName>${project.artifactId} - ${project.version}</releaseName>
                             <description>Download the standalone executable -
-                                `runnable-${project.artifactId}-${project.version}.jar`
+                                `run-${project.artifactId}-${project.version}.jar`
                                 and read the project's `README.md` for configuration instructions.
                             </description>
                             <tag>${project.version}</tag>
