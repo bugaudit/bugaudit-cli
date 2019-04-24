@@ -7,12 +7,13 @@
 #export BUGAUDIT_ISSUETYPE=Bug
 #export BUGAUDIT_ASSIGNEE=testuser@example.com
 #export BUGAUDIT_SUBSCRIBERS=coolguy@test.com,tester@example.com
+#export BUGAUDIT_LANG=Ruby
 #export BUGAUDIT_TRACKER_READONLY=TRUE
 #export BUGAUDIT_TRACKER_NAME=Jira
 #export BUGAUDIT_TRACKER_ENDPOINT=https://example.jira.com
-#export BUGAUDIT_TRACKER_USERNAME=user -- Not required if API Key is provided
-#export BUGAUDIT_TRACKER_PASSWORD=password -- Not required if API Key is provided
-#export BUGAUDIT_TRACKER_API_KEY=XxyYAbcZ -- Not required if username and password are provided
+#export BUGAUDIT_TRACKER_USERNAME=user   #-- Not required if API Key is provided
+#export BUGAUDIT_TRACKER_PASSWORD=password   #-- Not required if API Key is provided
+#export BUGAUDIT_TRACKER_API_KEY=XxyYAbcZ   #-- Not required if username and password are provided
 #export BUGAUDIT_SCANNER_PARSERONLY=TRUE
 #export BUGAUDIT_SCANNER_TOOL=BundlerAudit
 #export BUGAUDIT_SCANNER_DIR=test/code/path
