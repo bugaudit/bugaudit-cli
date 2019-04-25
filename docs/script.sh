@@ -38,15 +38,20 @@ API_URL="https://api.github.com/repos/$TOOL_REPO"
 #Saving latest release info to assets.json
 curl "$API_URL/releases/latest$GITHUB_TOKEN_PARAMETER" > assets.json
 
-#Using jq to get Asset ID and File Name
-ASSET_ID=$(jq -r '.assets[1].id' assets.json)
-ASSET_NAME=$(jq -r '.assets[1].name' assets.json)
+#Using jq to get Asset File ID and File Name
+ASSET_FILE_ID=$(jq -r '.assets[1].id' assets.json)
+ASSET_FILE_NAME=$(jq -r '.assets[1].name' assets.json)
+
+#Using jq to get Asset SHA-1 Checksum ID and Checksum Name
+ASSET_SHASUM_ID=$(jq -r '.assets[2].id' assets.json)
+
+ASSET_SHASUM_VALUE=$(curl -L -H "Accept: application/octet-stream" "$API_URL/releases/assets/$ASSET_SHASUM_ID$GITHUB_TOKEN_PARAMETER")
 
 #Cleaning up locally stored Asset File and assets.json file
 rm assets.json
-rm -f $ASSET_NAME
+rm -f $ASSET_FILE_NAME
 
 #Downloading file from GitHub releases
-curl -O -J -L -H "Accept: application/octet-stream" "$API_URL/releases/assets/$ASSET_ID$GITHUB_TOKEN_PARAMETER"
+curl -O -J -L -H "Accept: application/octet-stream" "$API_URL/releases/assets/$ASSET_FILE_ID$GITHUB_TOKEN_PARAMETER"
 
-java -jar $ASSET_NAME
+java -jar $ASSET_FILE_NAME

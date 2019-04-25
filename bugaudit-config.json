@@ -1,7 +1,4 @@
 {
-  "trackerName": "FreshreleaseTracker",
-  "project": "TEST",
-  "issueType": "Bug",
   "summaryUpdateAllowed": true,
   "descriptionUpdateAllowed": true,
   "reprioritizeAllowed": true,
@@ -11,16 +8,6 @@
     "High": 2,
     "Medium": 3,
     "Low": 4
-  },
-  "customFields": {
-    "cf_source": "BugAudit"
-  },
-  "users": {
-    "assignee": "mail@example.com",
-    "subscibers": [
-      "anothermail@example.com",
-      "test@test.com"
-    ]
   },
   "transitions": {
     "In Testing (Branch)": [
@@ -124,8 +111,8 @@
     "Security Verified"
   ],
   "ignorableLabels": [
-    "bugaudit-ignore",
-    "ignored-bug"
+    "igvul",
+    "ignored-vulnerability"
   ],
   "ignorableStatuses": [
     "Deferred",
