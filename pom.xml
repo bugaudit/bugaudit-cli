@@ -131,7 +131,6 @@
                                     <overwrite>true</overwrite>
                                     <lines>
                                         <line># ${project.name}</line>
-                                        <line>[![Maven Central](https://maven-badges.herokuapp.com/maven-central/${project.groupId}/${project.artifactId}/badge.svg)](https://maven-badges.herokuapp.com/maven-central/${project.groupId}/${project.artifactId})</line>
                                         <line>[![Build Status](https://gitlab.com/${project.owner.id}/${project.artifactId}/badges/master/pipeline.svg)](https://gitlab.com/${project.owner.id}/${project.artifactId}/pipelines)</line>
                                         <line></line>
                                         <line>${project.description}</line>
