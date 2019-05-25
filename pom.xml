@@ -5,7 +5,7 @@
 
     <groupId>me.shib.bugaudit</groupId>
     <artifactId>bugaudit-cli</artifactId>
-    <version>0.0.1</version>
+    <version>0.2</version>
     <name>BugAudit CLI</name>
     <description>Command Line Interface for BugAudit</description>
     <url>https://github.com/${project.owner.id}/${project.artifactId}</url>
@@ -202,7 +202,7 @@
         <dependency>
             <groupId>me.shib.bugaudit</groupId>
             <artifactId>bugaudit-core</artifactId>
-            <version>0.1</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
