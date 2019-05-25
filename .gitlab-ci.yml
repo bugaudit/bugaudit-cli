@@ -12,6 +12,7 @@ cache:
 Deploying to Bintray:
   stage: deploy
   script:
+    - sh build-dependency.sh shibme/freshrelease-api
     - mvn $MAVEN_CLI_OPTS clean deploy
   only:
     - master
