@@ -20,12 +20,15 @@
 #export BUGAUDIT_SCANNER_BRAKEMAN_CONFIG="config/brakeman.yml"
 #export BUGAUDIT_SCANNER_BRAKEMAN_IGNORE="config/brakeman.ignore"
 
+BUGAUDIT_CLI_JAR=bugaudit-cli.jar
 
 if [ ! -z "$BUGAUDIT_SCANNER_DIR" ]; then
    cd $BUGAUDIT_SCANNER_DIR
 fi
 
-#Downloading jar from GitHub releases
-curl -L https://github.com/bugaudit/bugaudit-cli/releases/download/0.2/bugaudit-cli-0.2.jar --output buaudit-cli.jar
+rm $BUGAUDIT_CLI_JAR
 
-java -jar buaudit-cli.jar
+#Downloading jar from GitHub releases
+curl -L https://github.com/bugaudit/bugaudit-cli/releases/download/0.2/bugaudit-cli-0.2.jar --output $BUGAUDIT_CLI_JAR
+
+java -jar $BUGAUDIT_CLI_JAR
