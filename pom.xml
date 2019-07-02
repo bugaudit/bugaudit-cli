@@ -189,6 +189,14 @@
 
     <repositories>
         <repository>
+            <id>freshrelease-java-client-mvn-repo</id>
+            <url>https://raw.github.com/freshdesk/freshrelease-java-client/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
             <id>${project.distributionManagement.repository.id}</id>
             <name>bintray</name>
             <url>https://dl.bintray.com/${project.owner.id}/maven</url>
@@ -202,6 +210,31 @@
         <dependency>
             <groupId>me.shib.bugaudit</groupId>
             <artifactId>bugaudit-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.shib.bugaudit</groupId>
+            <artifactId>bugaudit-tracker-jira</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.shib.bugaudit</groupId>
+            <artifactId>bugaudit-tracker-freshrelease</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.shib.bugaudit</groupId>
+            <artifactId>bugaudit-scanner-bundleraudit</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.shib.bugaudit</groupId>
+            <artifactId>bugaudit-scanner-brakeman</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.shib.bugaudit</groupId>
+            <artifactId>bugaudit-scanner-retirejs</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
