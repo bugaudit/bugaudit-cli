@@ -1,34 +1,22 @@
-#!/bin/bash
-
-#Set the environmental variables below before beginning
-#export BUGAUDIT_CONFIG=bugaudit-config.json
-#export BUGAUDIT_PROJECT=TEST
-#export BUGAUDIT_ISSUETYPE=Bug
-#export BUGAUDIT_ASSIGNEE=testuser@example.com
-#export BUGAUDIT_SUBSCRIBERS=coolguy@test.com,tester@example.com
-#export BUGAUDIT_LANG=Ruby
-#export BUGAUDIT_TRACKER_READONLY=TRUE
-#export BUGAUDIT_TRACKER_NAME=Jira
-#export BUGAUDIT_TRACKER_ENDPOINT=https://example.jira.com
-#export BUGAUDIT_TRACKER_USERNAME=user   #-- Not required if API Key is provided
-#export BUGAUDIT_TRACKER_PASSWORD=password   #-- Not required if API Key is provided
-#export BUGAUDIT_TRACKER_API_KEY=XxyYAbcZ   #-- Not required if username and password are provided
-#export BUGAUDIT_SCANNER_PARSERONLY=TRUE
-#export BUGAUDIT_SCANNER_TOOL=BundlerAudit
-#export BUGAUDIT_SCANNER_DIR=test/code/path
-#export BUGAUDIT_SCANNER_CONFIG=bugaudit-scanner-config.json
-#export BUGAUDIT_SCANNER_BRAKEMAN_CONFIG="config/brakeman.yml"
-#export BUGAUDIT_SCANNER_BRAKEMAN_IGNORE="config/brakeman.ignore"
-
-BUGAUDIT_CLI_JAR=bugaudit-cli.jar
-
-if [ ! -z "$BUGAUDIT_SCANNER_DIR" ]; then
-   cd $BUGAUDIT_SCANNER_DIR
+#!/usr/bin/env bash
+DOCKER_VERSION_RESPONSE=$(docker -v)
+EXPECTED_RESPONSE="Docker version "
+if test "${DOCKER_VERSION_RESPONSE#*$EXPECTED_RESPONSE}" != "$DOCKER_VERSION_RESPONSE"
+then
+    docker kill bugaudit-runner
+    docker rm bugaudit-runner
+    docker run \
+    -e BUGAUDIT_PROJECT \
+    -e BUGAUDIT_ISSUETYPE \
+    -e BUGAUDIT_TRACKER_NAME \
+    -e BUGAUDIT_TRACKER_ENDPOINT \
+    -e BUGAUDIT_TRACKER_API_KEY \
+    -e BUGAUDIT_ASSIGNEE \
+    -e BUGAUDIT_SCANNER_TOOL \
+    -e BUGAUDIT_SCANNER_DIR \
+    -e GIT_URL \
+    -e GIT_AUTH_TOKEN \
+    --name bugaudit-runner bugaudit/bugaudit-runner
+else
+    echo "Please install docker client before you begin."
 fi
-
-rm $BUGAUDIT_CLI_JAR
-
-#Downloading jar from GitHub releases
-curl -L https://github.com/bugaudit/bugaudit-cli/releases/download/0.2/bugaudit-cli-0.2.jar --output $BUGAUDIT_CLI_JAR
-
-java -jar $BUGAUDIT_CLI_JAR

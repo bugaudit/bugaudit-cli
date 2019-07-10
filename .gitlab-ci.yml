@@ -4,9 +4,18 @@ variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-Deploying to Bintray:
+Bintray and GitHub Release:
   stage: deploy
   script:
     - mvn $MAVEN_CLI_OPTS clean deploy
+    - docker build -t bugaudit-runner .
   only:
     - master
+
+#Pushing to DockerHub:
+#  stage: deploy
+#  script:
+#    - mvn $MAVEN_CLI_OPTS clean install
+#    - docker build -t bugaudit-runner .
+#  only:
+#    - master
