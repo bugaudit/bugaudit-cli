@@ -6,7 +6,7 @@ variables:
 
 stages:
   - build
-  - package
+  - deploy
 
 Maven Build:
   image: maven:3-jdk-8
