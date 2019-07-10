@@ -11,7 +11,7 @@ RUN gem install bundler:1.17.1
 RUN gem install bundler
 RUN gem install brakeman
 RUN gem install bundler-audit
-COPY target/bugaudit-runner.jar /bugaudit-workspace/bugaudit-runner.jar
-COPY bugaudit-runner /bugaudit-workspace/bugaudit-runner
+ADD /target/bugaudit-runner.jar /bugaudit-workspace/bugaudit-runner.jar
+ADD /bugaudit-runner /bugaudit-workspace/bugaudit-runner
 RUN chmod +x /bugaudit-workspace/bugaudit-runner
 ENTRYPOINT ["/bugaudit-workspace/bugaudit-runner"]

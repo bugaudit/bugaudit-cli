@@ -3,19 +3,28 @@ DOCKER_VERSION_RESPONSE=$(docker -v)
 EXPECTED_RESPONSE="Docker version "
 if test "${DOCKER_VERSION_RESPONSE#*$EXPECTED_RESPONSE}" != "$DOCKER_VERSION_RESPONSE"
 then
+    echo "Attempting to kill any running docker instances of BugAudit Runner:"
     docker kill bugaudit-runner
+    echo "Attempting to remove any docker instances of BugAudit Runner:"
     docker rm bugaudit-runner
     docker run \
-    -e BUGAUDIT_PROJECT \
-    -e BUGAUDIT_ISSUETYPE \
+    -e GIT_URL \
+    -e GIT_BRANCH \
+    -e GIT_AUTH_TOKEN \
     -e BUGAUDIT_TRACKER_NAME \
     -e BUGAUDIT_TRACKER_ENDPOINT \
     -e BUGAUDIT_TRACKER_API_KEY \
+    -e BUGAUDIT_TRACKER_USERNAME \
+    -e BUGAUDIT_TRACKER_PASSWORD \
+    -e BUGAUDIT_PROJECT \
+    -e BUGAUDIT_ISSUETYPE \
+    -e BUGAUDIT_CONFIG \
     -e BUGAUDIT_ASSIGNEE \
-    -e BUGAUDIT_SCANNER_TOOL \
     -e BUGAUDIT_SCANNER_DIR \
-    -e GIT_URL \
-    -e GIT_AUTH_TOKEN \
+    -e BUGAUDIT_TRACKER_READONLY \
+    -e BUGAUDIT_SUBSCRIBERS \
+    -e BUGAUDIT_SCANNER_CONFIG \
+    -e BUGAUDIT_LANG \
     --name bugaudit-runner bugaudit/bugaudit-runner
 else
     echo "Please install docker client before you begin."

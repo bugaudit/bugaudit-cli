@@ -13,4 +13,4 @@ if [ ! -z "$GIT_REPO" ]; then
     unset GIT_REPO
     cd bugaudit-scan-source
 fi
-java -jar ../bugaudit-runner.jar
+java -jar /bugaudit-workspace/bugaudit-runner.jar
