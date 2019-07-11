@@ -11,6 +11,8 @@ RUN gem install bundler:1.17.1
 RUN gem install bundler
 RUN gem install brakeman
 RUN gem install bundler-audit
+RUN apk add npm
+RUN npm install -g retirejs
 ADD /target/bugaudit-runner.jar /bugaudit-workspace/bugaudit-runner.jar
 ADD /bugaudit-runner /bugaudit-workspace/bugaudit-runner
 RUN chmod +x /bugaudit-workspace/bugaudit-runner

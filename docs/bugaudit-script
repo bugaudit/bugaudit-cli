@@ -7,6 +7,7 @@ then
     docker kill bugaudit-runner
     echo "Attempting to remove any docker instances of BugAudit Runner:"
     docker rm bugaudit-runner
+    docker pull bugaudit/bugaudit-runner
     docker run \
     -e GIT_URL \
     -e GIT_BRANCH \
