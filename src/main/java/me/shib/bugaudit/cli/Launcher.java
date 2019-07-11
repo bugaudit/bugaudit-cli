@@ -41,11 +41,33 @@ public final class Launcher {
         }
     }
 
+    private static boolean isEnvSet(String var) {
+        String value = System.getenv(var);
+        return value != null && !value.isEmpty();
+    }
+
+    private static boolean areAltRequiredVarsSet() {
+        return isEnvSet(RequiredVars.BUGAUDIT_TRACKER_API_KEY.toString()) ||
+                (isEnvSet(RequiredVars.BUGAUDIT_TRACKER_USERNAME.toString()) &&
+                        isEnvSet(RequiredVars.BUGAUDIT_TRACKER_PASSWORD.toString()));
+    }
+
     private static boolean areAllRequiredVariablesSet() {
         for (RequiredVars var : RequiredVars.values()) {
-            String value = System.getenv(var.toString());
-            if (value == null || value.isEmpty()) {
-                return false;
+            if (!isEnvSet(var.toString())) {
+                if (var == RequiredVars.BUGAUDIT_TRACKER_API_KEY ||
+                        var == RequiredVars.BUGAUDIT_TRACKER_USERNAME ||
+                        var == RequiredVars.BUGAUDIT_TRACKER_PASSWORD) {
+                    if (!areAltRequiredVarsSet()) {
+                        System.out.println("Please set " + RequiredVars.BUGAUDIT_TRACKER_API_KEY + " (or) " +
+                                RequiredVars.BUGAUDIT_TRACKER_USERNAME + " and " +
+                                RequiredVars.BUGAUDIT_TRACKER_PASSWORD);
+                        return false;
+                    }
+                } else {
+                    System.out.println("The environment variable " + var + " is not set.");
+                    return false;
+                }
             }
         }
         return true;
