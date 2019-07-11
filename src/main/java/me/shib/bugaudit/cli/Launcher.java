@@ -12,70 +12,39 @@ public final class Launcher {
 
     private static final File repoDir = new File("bugaudit-scan-source");
     private static final String gitUrlEnv = "GIT_URL";
+    private static final String gitBranchEnv = "GIT_BRANCH";
     private static final String gitAuthTokenEnv = "GIT_AUTH_TOKEN";
-    private static final String[] requiredVariables = {"BUGAUDIT_TRACKER_NAME", "BUGAUDIT_TRACKER_ENDPOINT",
-            "BUGAUDIT_TRACKER_API_KEY", "BUGAUDIT_TRACKER_USERNAME", "BUGAUDIT_TRACKER_PASSWORD",
-            "BUGAUDIT_PROJECT", "BUGAUDIT_ISSUETYPE"};
-    private static final String[] optionalVariables = {"BUGAUDIT_CONFIG", "BUGAUDIT_ASSIGNEE",
-            "BUGAUDIT_SCANNER_DIR", "BUGAUDIT_TRACKER_READONLY", "BUGAUDIT_SUBSCRIBERS",
-            "BUGAUDIT_SCANNER_CONFIG", "BUGAUDIT_LANG"};
 
     private static void showHelpMenu() {
-        System.out.println("\nList of REQUIRED environment variables to run:");
-        System.out.println("\nGIT_URL" +
-                "\n\tThe remote URL of the Git repository to run the scan for");
-        System.out.println("\nGIT_BRANCH" +
+        System.out.println("\nList of GIT environment variables to set:");
+        System.out.println("\n" + gitUrlEnv +
+                "\n\tThe remote URL of the Git repository to run the scan");
+        System.out.println("\n" + gitBranchEnv +
                 "\n\tThe Git branch or commit over which the scan has to be run");
-        System.out.println("\nGIT_AUTH_TOKEN" +
-                "\n\tThe OAuth token to clone the repository " +
+        System.out.println("\n" + gitAuthTokenEnv +
+                "\n\tThe OAuth token to clone the repository" +
                 "\n\t[GitHub: https://github.com/settings/tokens]" +
                 "\n\t[GitLab: https://gitlab.com/profile/personal_access_tokens]");
-        System.out.println("\nBUGAUDIT_TRACKER_NAME" +
-                "\n\tThe name of the Issue tracker [Jira/Freshrelease]");
-        System.out.println("\nBUGAUDIT_TRACKER_ENDPOINT" +
-                "\n\tThe URL/endpoint of the Issue tracker " +
-                "\n\t[Example: https://jira.example.com]");
-        System.out.println("\nBUGAUDIT_TRACKER_API_KEY" +
-                "\n\tThe API token/key to authenticate with the issue tracker " +
-                "\n\t(Not required when username & password are specified)");
-        System.out.println("\nBUGAUDIT_TRACKER_USERNAME" +
-                "\n\tThe username field of credential to authenticate " +
-                "with the issue tracker" +
-                "\n\t(Not required when API token/key specified)");
-        System.out.println("\nBUGAUDIT_TRACKER_PASSWORD" +
-                "\n\tThe password field of credential to authenticate " +
-                "with the issue tracker" +
-                "\n\t(Not required when API token/key specified)");
-        System.out.println("\nBUGAUDIT_PROJECT" +
-                "\n\tThe Project key or ID where issues are to be tracked [Example: Test]");
-        System.out.println("\nBUGAUDIT_ISSUETYPE" +
-                "\n\tThe issue type to track the bugs [Example: Security Bug]");
+        System.out.println("\nList of REQUIRED environment variables to run:");
+        for (RequiredVars var : RequiredVars.values()) {
+            System.out.println("\n" + var);
+            for (String description : var.descriptions) {
+                System.out.println("\t" + description);
+            }
+        }
         System.out.println("\nList of OPTIONAL environment variables that can be used:");
-        System.out.println("\nBUGAUDIT_CONFIG" +
-                "\n\tThe location (URL or local file) of the config file." +
-                "\n\tThis contains the workflow and other rules the issues have to be maintained." +
-                "\n\t[Refer default config: https://bugaudit.github.io/bugaudit-cli/bugaudit-config.json]");
-        System.out.println("\nBUGAUDIT_ASSIGNEE" +
-                "\n\tThe user to whom the new issues have to be assigned" +
-                "[Example: somedude@example.com]");
-        System.out.println("\nBUGAUDIT_SCANNER_DIR" +
-                "\n\t[TRUE/FALSE] Performs a scan inside a specified subdirectory in the repository");
-        System.out.println("\nBUGAUDIT_TRACKER_READONLY" +
-                "\n\t[TRUE/FALSE] Performs a real scan and mocks the issue tracker updates");
-        System.out.println("\nBUGAUDIT_SUBSCRIBERS" +
-                "\n\tComma separated values users who are required to watch or subscribe to the created issues" +
-                "\n\t(Might not be available in all issue trackers)");
-        System.out.println("\nBUGAUDIT_SCANNER_CONFIG" +
-                "\n\tAny scanner specific configuration (Not required mostly)");
-        System.out.println("\nBUGAUDIT_LANG" +
-                "\n\tThe language for which the scanner has to run for" +
-                "\n\t(BugAudit identifies the language automatically by default anyway)");
+        for (OptionalVars var : OptionalVars.values()) {
+            System.out.println("\n" + var);
+            for (String description : var.descriptions) {
+                System.out.println("\t" + description);
+            }
+        }
     }
 
-    private static boolean areAllRequredVariablesSet() {
-        for (String var : requiredVariables) {
-            String value = System.getenv(var);
-            if (value == null || var.isEmpty()) {
+    private static boolean areAllRequiredVariablesSet() {
+        for (RequiredVars var : RequiredVars.values()) {
+            String value = System.getenv(var.toString());
+            if (value == null || value.isEmpty()) {
                 return false;
             }
         }
@@ -83,13 +52,14 @@ public final class Launcher {
     }
 
     public static void main(String[] args) throws IOException, BugAuditException {
-        if (!areAllRequredVariablesSet()) {
+        if (!areAllRequiredVariablesSet()) {
             showHelpMenu();
         } else {
             String gitUrl = System.getenv(gitUrlEnv);
+            String gitBranch = System.getenv(gitBranchEnv);
             String gitAuthToken = System.getenv(gitAuthTokenEnv);
             if (gitUrl != null) {
-                GitRepo.cloneRepo(gitUrl, gitAuthToken, repoDir);
+                GitRepo.cloneRepo(gitUrl, gitBranch, gitAuthToken, repoDir);
             } else {
                 File gitDir = new File(".git");
                 if (gitDir.exists() && gitDir.isDirectory()) {
@@ -106,6 +76,44 @@ public final class Launcher {
                     System.out.println("A valid git repository was not found.");
                 }
             }
+        }
+    }
+
+    private enum RequiredVars {
+        BUGAUDIT_TRACKER_NAME(new String[]{"The name of the Issue tracker [Jira/Freshrelease]"}),
+        BUGAUDIT_TRACKER_ENDPOINT(new String[]{"The URL/endpoint of the Issue tracker", "[Example: https://jira.example.com]"}),
+        BUGAUDIT_TRACKER_API_KEY(new String[]{"The API token/key to authenticate with the issue tracker", "(Not required when username & password are specified)"}),
+        BUGAUDIT_TRACKER_USERNAME(new String[]{"The username field of credential to authenticate", "with the issue tracker", "(Not required when API token/key specified)"}),
+        BUGAUDIT_TRACKER_PASSWORD(new String[]{"The password field of credential to authenticate", "with the issue tracker", "(Not required when API token/key specified)"}),
+        BUGAUDIT_PROJECT(new String[]{"The Project key or ID where issues are to be tracked [Example: TEST]"}),
+        BUGAUDIT_ISSUETYPE(new String[]{"The issue type to track the bugs [Example: Security Bug]"});
+
+        private String[] descriptions;
+
+        RequiredVars(String[] descriptions) {
+            this.descriptions = descriptions;
+        }
+    }
+
+    private enum OptionalVars {
+        BUGAUDIT_CONFIG(new String[]{"The location (URL or local file) of the config file.",
+                "This contains the workflow and other rules the issues have to be maintained.",
+                "[Refer default config: https://bugaudit.github.io/bugaudit-cli/bugaudit-config.json]"}),
+        BUGAUDIT_ASSIGNEE(new String[]{"The user to whom the new issues have to be assigned",
+                "[Example: somedude@example.com]"}),
+        BUGAUDIT_SCANNER_DIR(new String[]{"[TRUE/FALSE] Performs a scan inside a specified subdirectory in the repository"}),
+        BUGAUDIT_TRACKER_READONLY(new String[]{"[TRUE/FALSE] Performs a real scan and mocks the issue tracker updates"}),
+        BUGAUDIT_SUBSCRIBERS(new String[]{"Comma separated values users who are required to watch or subscribe to the created issues",
+                "(Might not be available in all issue trackers)"}),
+        BUGAUDIT_SCANNER_CONFIG(new String[]{"Any scanner specific configuration (Not required mostly)"}),
+        BUGAUDIT_LANG(new String[]{"The language for which the scanner has to run for",
+                "[Example: Ruby, JavaScript]",
+                "(BugAudit identifies the language automatically by default anyway)"});
+
+        private String[] descriptions;
+
+        OptionalVars(String[] descriptions) {
+            this.descriptions = descriptions;
         }
     }
 

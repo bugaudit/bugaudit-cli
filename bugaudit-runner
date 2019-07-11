@@ -3,14 +3,6 @@ if [ ! -z "$GIT_URL" ]; then
     rm -rf bugaudit-scan-source
     java -jar /bugaudit-workspace/bugaudit-runner.jar
     unset GIT_URL
-    unset GIT_REPO
-    cd bugaudit-scan-source
-fi
-if [ ! -z "$GIT_REPO" ]; then
-    rm -rf bugaudit-scan-source
-    java -jar /bugaudit-workspace/bugaudit-runner.jar
-    unset GIT_URL
-    unset GIT_REPO
     cd bugaudit-scan-source
 fi
 java -jar /bugaudit-workspace/bugaudit-runner.jar
