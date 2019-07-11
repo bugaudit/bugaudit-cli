@@ -14,6 +14,7 @@ public final class Launcher {
     private static final String gitUrlEnv = "GIT_URL";
     private static final String gitBranchEnv = "GIT_BRANCH";
     private static final String gitAuthTokenEnv = "GIT_AUTH_TOKEN";
+    private static final String gitSSHKeyEnv = "GIT_SSH_KEY_BASE64";
 
     private static void showHelpMenu() {
         System.out.println("\nList of GIT environment variables to set:");
@@ -23,8 +24,15 @@ public final class Launcher {
                 "\n\tThe Git branch or commit over which the scan has to be run");
         System.out.println("\n" + gitAuthTokenEnv +
                 "\n\tThe OAuth token to clone the repository" +
+                "\n\t(Not required if " + gitSSHKeyEnv + " is set)" +
                 "\n\t[GitHub: https://github.com/settings/tokens]" +
                 "\n\t[GitLab: https://gitlab.com/profile/personal_access_tokens]");
+        System.out.println("\n" + gitSSHKeyEnv +
+                "\n\tThe SSH Private Key encoded in Base 64 to clone the repository" +
+                "\n\t(Not required if " + gitAuthTokenEnv + " is set)" +
+                "\n\tThe public key counterpart should be set in your Git Profile/Repo" +
+                "\n\t[GitHub: https://github.com/settings/keys]" +
+                "\n\t[GitLab: https://gitlab.com/profile/keys]");
         System.out.println("\nList of REQUIRED environment variables to run:");
         for (RequiredVars var : RequiredVars.values()) {
             System.out.println("\n" + var);

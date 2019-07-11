@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+if [ ! -z "$GIT_SSH_KEY_BASE64" ]; then
+    mkdir -p ~/.ssh
+    rm -rf * ~/.ssh/*
+    GIT_SSH_KEY=`echo $GIT_SSH_KEY_BASE64 | base64 -d`
+    echo $GIT_SSH_KEY > ~/.ssh/id_rsa
+    chmod 400 ~/.ssh/id_rsa
+fi
 if [ ! -z "$GIT_URL" ]; then
     rm -rf bugaudit-scan-source
     java -jar /bugaudit-workspace/bugaudit-runner.jar

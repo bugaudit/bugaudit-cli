@@ -3,6 +3,11 @@ DOCKER_VERSION_RESPONSE=$(docker -v)
 EXPECTED_RESPONSE="Docker version "
 if test "${DOCKER_VERSION_RESPONSE#*$EXPECTED_RESPONSE}" != "$DOCKER_VERSION_RESPONSE"
 then
+    if [ -z "$GIT_AUTH_TOKEN" ]; then
+        if [ -z "$GIT_SSH_KEY_BASE64" ]; then
+            export GIT_SSH_KEY_BASE64=`cat ~/.ssh/id_rsa | base64`
+        fi
+    fi
     echo "Attempting to kill any running docker instances of BugAudit Runner:"
     docker kill bugaudit-runner
     echo "Attempting to remove any docker instances of BugAudit Runner:"
@@ -12,6 +17,7 @@ then
     -e GIT_URL \
     -e GIT_BRANCH \
     -e GIT_AUTH_TOKEN \
+    -e GIT_SSH_KEY_BASE64 \
     -e BUGAUDIT_TRACKER_NAME \
     -e BUGAUDIT_TRACKER_ENDPOINT \
     -e BUGAUDIT_TRACKER_API_KEY \
