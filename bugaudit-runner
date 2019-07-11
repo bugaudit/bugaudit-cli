@@ -2,7 +2,7 @@
 if [ ! -z "$GIT_SSH_KEY_BASE64" ]; then
     mkdir -p ~/.ssh
     rm -rf * ~/.ssh/*
-    GIT_SSH_KEY=`echo $GIT_SSH_KEY_BASE64 | base64 -d`
+    export GIT_SSH_KEY=`echo $GIT_SSH_KEY_BASE64 | base64 -d`
     echo $GIT_SSH_KEY > ~/.ssh/id_rsa
     chmod 400 ~/.ssh/id_rsa
 fi

@@ -14,7 +14,8 @@ public final class Launcher {
     private static final String gitUrlEnv = "GIT_URL";
     private static final String gitBranchEnv = "GIT_BRANCH";
     private static final String gitAuthTokenEnv = "GIT_AUTH_TOKEN";
-    private static final String gitSSHKeyEnv = "GIT_SSH_KEY_BASE64";
+    private static final String gitSSHKeyBase64Env = "GIT_SSH_KEY_BASE64";
+    private static final String gitSSHKeyEnv = "GIT_SSH_KEY";
 
     private static void showHelpMenu() {
         System.out.println("\nList of GIT environment variables to set:");
@@ -24,10 +25,10 @@ public final class Launcher {
                 "\n\tThe Git branch or commit over which the scan has to be run");
         System.out.println("\n" + gitAuthTokenEnv +
                 "\n\tThe OAuth token to clone the repository" +
-                "\n\t(Not required if " + gitSSHKeyEnv + " is set)" +
+                "\n\t(Not required if " + gitSSHKeyBase64Env + " is set)" +
                 "\n\t[GitHub: https://github.com/settings/tokens]" +
                 "\n\t[GitLab: https://gitlab.com/profile/personal_access_tokens]");
-        System.out.println("\n" + gitSSHKeyEnv +
+        System.out.println("\n" + gitSSHKeyBase64Env +
                 "\n\tThe SSH Private Key encoded in Base 64 to clone the repository" +
                 "\n\t(Not required if " + gitAuthTokenEnv + " is set)" +
                 "\n\tThe public key counterpart should be set in your Git Profile/Repo" +
@@ -88,8 +89,9 @@ public final class Launcher {
             String gitUrl = System.getenv(gitUrlEnv);
             String gitBranch = System.getenv(gitBranchEnv);
             String gitAuthToken = System.getenv(gitAuthTokenEnv);
+            String gitSSHKey = System.getenv(gitSSHKeyEnv);
             if (gitUrl != null) {
-                GitRepo.cloneRepo(gitUrl, gitBranch, gitAuthToken, repoDir);
+                GitRepo.cloneRepo(gitUrl, gitBranch, gitAuthToken, gitSSHKey, repoDir);
             } else {
                 File gitDir = new File(".git");
                 if (gitDir.exists() && gitDir.isDirectory()) {
