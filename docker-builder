@@ -4,3 +4,4 @@ DOCKER_PASSWORD=`echo $DOCKER_PASSWORD_BASE64 | base64 -d`
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 docker build -t bugaudit/bugaudit-runner .
 docker push bugaudit/bugaudit-runner
+docker logout
