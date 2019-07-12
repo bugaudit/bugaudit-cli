@@ -3,10 +3,8 @@ DOCKER_VERSION_RESPONSE=$(docker -v)
 EXPECTED_RESPONSE="Docker version "
 if test "${DOCKER_VERSION_RESPONSE#*$EXPECTED_RESPONSE}" != "$DOCKER_VERSION_RESPONSE"
 then
-    if [ -z "$GIT_AUTH_TOKEN" ]; then
-        if [ -z "$GIT_SSH_KEY_BASE64" ]; then
-            export GIT_SSH_KEY_BASE64=`cat ~/.ssh/id_rsa | base64`
-        fi
+    if [ -z "$GIT_SSH_PRIVATE_KEY" ]; then
+        export GIT_SSH_PRIVATE_KEY="$HOME/.ssh/id_rsa"
     fi
     echo "Attempting to kill any running docker instances of BugAudit Runner:"
     docker kill bugaudit-runner
@@ -14,10 +12,9 @@ then
     docker rm bugaudit-runner
     docker pull bugaudit/bugaudit-runner
     docker run \
-    -e GIT_URL \
+    -e GIT_REPO \
     -e GIT_BRANCH \
-    -e GIT_AUTH_TOKEN \
-    -e GIT_SSH_KEY_BASE64 \
+    -e GIT_SSH_PRIVATE_KEY \
     -e BUGAUDIT_TRACKER_NAME \
     -e BUGAUDIT_TRACKER_ENDPOINT \
     -e BUGAUDIT_TRACKER_API_KEY \
@@ -32,7 +29,8 @@ then
     -e BUGAUDIT_SUBSCRIBERS \
     -e BUGAUDIT_SCANNER_CONFIG \
     -e BUGAUDIT_LANG \
-    --name bugaudit-runner bugaudit/bugaudit-runner
+    --name bugaudit-runner \
+    -v $GIT_SSH_PRIVATE_KEY:/root/.ssh/id_rsa bugaudit/bugaudit-runner
 else
     echo "Please install docker client before you begin."
 fi

@@ -1,8 +1,6 @@
 package me.shib.bugaudit.cli;
 
 import me.shib.bugaudit.BugAudit;
-import me.shib.bugaudit.commons.BugAuditException;
-import me.shib.bugaudit.scanner.GitRepo;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,30 +8,14 @@ import java.util.List;
 
 public final class Launcher {
 
-    private static final File repoDir = new File("bugaudit-scan-source");
-    private static final String gitUrlEnv = "GIT_URL";
-    private static final String gitBranchEnv = "GIT_BRANCH";
-    private static final String gitAuthTokenEnv = "GIT_AUTH_TOKEN";
-    private static final String gitSSHKeyBase64Env = "GIT_SSH_KEY_BASE64";
-    private static final String gitSSHKeyEnv = "GIT_SSH_KEY";
-
     private static void showHelpMenu() {
         System.out.println("\nList of GIT environment variables to set:");
-        System.out.println("\n" + gitUrlEnv +
-                "\n\tThe remote URL of the Git repository to run the scan");
-        System.out.println("\n" + gitBranchEnv +
-                "\n\tThe Git branch or commit over which the scan has to be run");
-        System.out.println("\n" + gitAuthTokenEnv +
-                "\n\tThe OAuth token to clone the repository" +
-                "\n\t(Not required if " + gitSSHKeyBase64Env + " is set)" +
-                "\n\t[GitHub: https://github.com/settings/tokens]" +
-                "\n\t[GitLab: https://gitlab.com/profile/personal_access_tokens]");
-        System.out.println("\n" + gitSSHKeyBase64Env +
-                "\n\tThe SSH Private Key encoded in Base 64 to clone the repository" +
-                "\n\t(Not required if " + gitAuthTokenEnv + " is set)" +
-                "\n\tThe public key counterpart should be set in your Git Profile/Repo" +
-                "\n\t[GitHub: https://github.com/settings/keys]" +
-                "\n\t[GitLab: https://gitlab.com/profile/keys]");
+        for (GitVars var : GitVars.values()) {
+            System.out.println("\n" + var);
+            for (String description : var.descriptions) {
+                System.out.println("\t" + description);
+            }
+        }
         System.out.println("\nList of REQUIRED environment variables to run:");
         for (RequiredVars var : RequiredVars.values()) {
             System.out.println("\n" + var);
@@ -82,41 +64,54 @@ public final class Launcher {
         return true;
     }
 
-    public static void main(String[] args) throws IOException, BugAuditException {
+    public static void main(String[] args) throws IOException {
         if (!areAllRequiredVariablesSet()) {
             showHelpMenu();
         } else {
-            String gitUrl = System.getenv(gitUrlEnv);
-            String gitBranch = System.getenv(gitBranchEnv);
-            String gitAuthToken = System.getenv(gitAuthTokenEnv);
-            String gitSSHKey = System.getenv(gitSSHKeyEnv);
-            if (gitUrl != null) {
-                GitRepo.cloneRepo(gitUrl, gitBranch, gitAuthToken, gitSSHKey, repoDir);
-            } else {
-                File gitDir = new File(".git");
-                if (gitDir.exists() && gitDir.isDirectory()) {
-                    List<Exception> exceptions = BugAudit.audit();
-                    for (Exception e : exceptions) {
-                        e.printStackTrace();
-                    }
-                    if (exceptions.size() > 0) {
-                        System.exit(1);
-                    } else {
-                        System.exit(0);
-                    }
-                } else {
-                    System.out.println("A valid git repository was not found.");
+            File gitDir = new File(".git");
+            if (gitDir.exists() && gitDir.isDirectory()) {
+                List<Exception> exceptions = BugAudit.audit();
+                for (Exception e : exceptions) {
+                    e.printStackTrace();
                 }
+                if (exceptions.size() > 0) {
+                    System.exit(1);
+                } else {
+                    System.exit(0);
+                }
+            } else {
+                System.out.println("Unable to identify a valid Git repository.");
             }
+        }
+    }
+
+    private enum GitVars {
+        GIT_REPO(new String[]{"The remote URL of the Git repository to run the scan"}),
+        GIT_BRANCH(new String[]{"The Git branch or commit over which the scan has to be run [Optional]"}),
+        GIT_SSH_PRIVATE_KEY(new String[]{"The path to SSH Private Key in local machine (not container)",
+                "If not set, the default key will be automatically used",
+                "The public key counterpart should be set in your Git Profile/Repo",
+                "[GitHub: https://github.com/settings/keys]",
+                "[GitLab: https://gitlab.com/profile/keys]"});
+        private String[] descriptions;
+
+        GitVars(String[] descriptions) {
+            this.descriptions = descriptions;
         }
     }
 
     private enum RequiredVars {
         BUGAUDIT_TRACKER_NAME(new String[]{"The name of the Issue tracker [Jira/Freshrelease]"}),
-        BUGAUDIT_TRACKER_ENDPOINT(new String[]{"The URL/endpoint of the Issue tracker", "[Example: https://jira.example.com]"}),
-        BUGAUDIT_TRACKER_API_KEY(new String[]{"The API token/key to authenticate with the issue tracker", "(Not required when username & password are specified)"}),
-        BUGAUDIT_TRACKER_USERNAME(new String[]{"The username field of credential to authenticate", "with the issue tracker", "(Not required when API token/key specified)"}),
-        BUGAUDIT_TRACKER_PASSWORD(new String[]{"The password field of credential to authenticate", "with the issue tracker", "(Not required when API token/key specified)"}),
+        BUGAUDIT_TRACKER_ENDPOINT(new String[]{"The URL/endpoint of the Issue tracker",
+                "[Example: https://jira.example.com]"}),
+        BUGAUDIT_TRACKER_API_KEY(new String[]{"The API token/key to authenticate with the issue tracker",
+                "(Not required when username & password are specified)"}),
+        BUGAUDIT_TRACKER_USERNAME(new String[]{"The username field of credential to authenticate",
+                "with the issue tracker",
+                "(Not required when API token/key specified)"}),
+        BUGAUDIT_TRACKER_PASSWORD(new String[]{"The password field of credential to authenticate",
+                "with the issue tracker",
+                "(Not required when API token/key specified)"}),
         BUGAUDIT_PROJECT(new String[]{"The Project key or ID where issues are to be tracked [Example: TEST]"}),
         BUGAUDIT_ISSUETYPE(new String[]{"The issue type to track the bugs [Example: Security Bug]"});
 
