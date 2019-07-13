@@ -11,4 +11,3 @@ if [ ! -z "$GIT_REPO" ]; then
 else
     echo "Please set GIT_REPO environment variable"
 fi
-java -jar /bugaudit-workspace/bugaudit-runner.jar
