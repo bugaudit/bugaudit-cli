@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
+export SSH_PRIVATE_KEY_FILE="/bugaudit-ssh-key/ssh-priv-key"
+if [ -f "$SSH_PRIVATE_KEY_FILE" ]; then
+    mkdir /root/.ssh
+    cp $SSH_PRIVATE_KEY_FILE /root/.ssh/id_rsa
+    chmod 400 /root/.ssh/id_rsa
+    if [ ! -z "$SSH_PRIVATE_KEY_PASSPHRASE" ]; then
+        ssh-keygen -p -P $SSH_PRIVATE_KEY_PASSPHRASE -N "" -f /root/.ssh/id_rsa
+    fi
+fi
 if [ ! -z "$GIT_REPO" ]; then
     if [[ $GIT_REPO == http* ]]; then
         echo "Please provide a valid SSH based clone URI"
     else
-        rm -rf bugaudit-scan-source
         git clone $GIT_REPO bugaudit-scan-source
-        cd bugaudit-scan-source
-        java -jar /bugaudit-workspace/bugaudit-runner.jar
     fi
 else
-    echo "Please set GIT_REPO environment variable"
+    HOST_PATH_GIT_DIR="/bugaudit-host-dir/.git"
+    if [ -d "$HOST_PATH_GIT_DIR" ]; then
+        echo "Making a copy of local repo from host directory"
+        cp /bugaudit-host-dir/* /bugaudit-scan-source/
+    fi
 fi
+cd /bugaudit-workspace/bugaudit-scan-source
+java -jar /bugaudit-workspace/bugaudit-runner.jar

@@ -88,11 +88,12 @@ public final class Launcher {
     private enum GitVars {
         GIT_REPO(new String[]{"The remote URL of the Git repository to run the scan"}),
         GIT_BRANCH(new String[]{"The Git branch or commit over which the scan has to be run [Optional]"}),
-        GIT_SSH_PRIVATE_KEY(new String[]{"The path to SSH Private Key in local machine (not container)",
+        SSH_PRIVATE_KEY(new String[]{"The path to SSH Private Key in local machine (not container)",
                 "If not set, the default key will be automatically used",
                 "The public key counterpart should be set in your Git Profile/Repo",
                 "[GitHub: https://github.com/settings/keys]",
-                "[GitLab: https://gitlab.com/profile/keys]"});
+                "[GitLab: https://gitlab.com/profile/keys]"}),
+        SSH_PRIVATE_KEY_PASSPHRASE(new String[]{"The passphrase used to access the encrypted SSH private key"});
         private String[] descriptions;
 
         GitVars(String[] descriptions) {
