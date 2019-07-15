@@ -15,11 +15,20 @@ if [ ! -z "$GIT_REPO" ]; then
         git clone $GIT_REPO bugaudit-scan-source
     fi
 else
+    echo "GIT_REPO was not provided, looking into host-local directory"
     HOST_PATH_GIT_DIR="/bugaudit-host-dir/.git"
     if [ -d "$HOST_PATH_GIT_DIR" ]; then
         echo "Making a copy of local repo from host directory"
-        cp -r /bugaudit-host-dir/ /bugaudit-scan-source/
+        cp -r /bugaudit-host-dir/ /bugaudit-workspace/bugaudit-scan-source/
     fi
 fi
 cd /bugaudit-workspace/bugaudit-scan-source
-java -jar /bugaudit-workspace/bugaudit-runner.jar
+SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/bugaudit-scan-source/.git"
+if [ -d "$HOST_PATH_GIT_DIR" ]; then
+    java -jar /bugaudit-workspace/bugaudit-runner.jar
+else
+    echo "No git repository was found. Run this inside a local git repository."
+    echo "Alternatively you can also provide remote SSH Git repo URL through GIT_REPO environment variable"
+    exit 1
+fi
+
