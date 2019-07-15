@@ -18,7 +18,7 @@ else
     HOST_PATH_GIT_DIR="/bugaudit-host-dir/.git"
     if [ -d "$HOST_PATH_GIT_DIR" ]; then
         echo "Making a copy of local repo from host directory"
-        cp /bugaudit-host-dir/* /bugaudit-scan-source/
+        cp -r /bugaudit-host-dir/ /bugaudit-scan-source/
     fi
 fi
 cd /bugaudit-workspace/bugaudit-scan-source
