@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
+
 export SSH_PRIVATE_KEY_FILE="/bugaudit-ssh-key/ssh-priv-key"
 if [ -f "$SSH_PRIVATE_KEY_FILE" ]; then
-    mkdir /root/.ssh
     cp $SSH_PRIVATE_KEY_FILE /root/.ssh/id_rsa
     chmod 400 /root/.ssh/id_rsa
     if [ ! -z "$SSH_PRIVATE_KEY_PASSPHRASE" ]; then
         ssh-keygen -p -P $SSH_PRIVATE_KEY_PASSPHRASE -N "" -f /root/.ssh/id_rsa
     fi
 fi
+
+if [ ! -z "$BUGAUDIT_CONFIG" ]; then
+    if [[ $BUGAUDIT_CONFIG != http* ]]; then
+        export BUGAUDIT_CONFIG_FILE_MOUNT_PATH="/bugaudit-config-dir/bugaudit-config.json"
+        if [ -f "$BUGAUDIT_CONFIG_FILE_MOUNT_PATH" ]; then
+            export BUGAUDIT_CONFIG="/bugaudit-workspace/bugaudit-config.json"
+            cp $BUGAUDIT_CONFIG_FILE_MOUNT_PATH $BUGAUDIT_CONFIG
+        else
+            echo "The config file you referred using BUGAUDIT_CONFIG seems unreadable."
+            echo "Please make sure the file exists or specify the absolute path"
+            exit 1
+        fi
+    fi
+fi
+
 if [ ! -z "$GIT_REPO" ]; then
     if [[ $GIT_REPO == http* ]]; then
         echo "Please provide a valid SSH based clone URI"
@@ -16,14 +31,16 @@ if [ ! -z "$GIT_REPO" ]; then
     fi
 else
     echo "GIT_REPO was not provided, looking into host-local directory"
-    HOST_PATH_GIT_DIR="/bugaudit-host-dir/.git"
+    export HOST_PATH_GIT_DIR="/bugaudit-host-dir/.git"
     if [ -d "$HOST_PATH_GIT_DIR" ]; then
         echo "Making a copy of local repo from host directory"
         cp -r /bugaudit-host-dir/ /bugaudit-workspace/bugaudit-scan-source/
     fi
 fi
+
 cd /bugaudit-workspace/bugaudit-scan-source
-SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/bugaudit-scan-source/.git"
+
+export SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/bugaudit-scan-source/.git"
 if [ -d "$HOST_PATH_GIT_DIR" ]; then
     java -jar /bugaudit-workspace/bugaudit-runner.jar
 else

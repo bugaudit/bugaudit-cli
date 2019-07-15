@@ -7,12 +7,17 @@ then
     if [ -z "$SSH_PRIVATE_KEY" ]; then
         export SSH_PRIVATE_KEY="$HOME/.ssh/id_rsa"
     fi
+    if [[ $BUGAUDIT_CONFIG != http* ]]; then
+        if [ -f "$BUGAUDIT_CONFIG" ]; then
+            export BUGAUDIT_CONFIG_LOCAL_FILE="$BUGAUDIT_CONFIG"
+        fi
+    fi
     echo "Attempting to kill any running docker instances of BugAudit Runner:"
     docker kill bugaudit-runner
     echo "Attempting to remove any docker instances of BugAudit Runner:"
     docker rm bugaudit-runner
     docker pull bugaudit/bugaudit-runner
-    docker run \
+    docker run -ti \
     -e GIT_REPO \
     -e GIT_BRANCH \
     -e SSH_PRIVATE_KEY_FILE \
@@ -33,6 +38,7 @@ then
     -e BUGAUDIT_LANG \
     --name bugaudit-runner \
     -v $LOCAL_DIR_PATH:/bugaudit-host-dir \
+    -v $BUGAUDIT_CONFIG_LOCAL_FILE:/bugaudit-config-dir/bugaudit-config.json \
     -v $SSH_PRIVATE_KEY:/bugaudit-ssh-key/ssh-priv-key bugaudit/bugaudit-runner
 else
     echo "Please install docker client before you begin."

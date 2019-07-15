@@ -21,4 +21,4 @@ RUN chmod 400 /root/.ssh/config
 ADD /target/bugaudit-runner.jar /bugaudit-workspace/bugaudit-runner.jar
 ADD /bugaudit-runner /bugaudit-workspace/bugaudit-runner
 RUN chmod +x /bugaudit-workspace/bugaudit-runner
-ENTRYPOINT ["/bugaudit-workspace/bugaudit-runner"]
+CMD ["/bugaudit-workspace/bugaudit-runner"]
