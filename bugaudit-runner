@@ -38,10 +38,9 @@ else
     fi
 fi
 
-cd /bugaudit-workspace/bugaudit-scan-source
-
 export SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/bugaudit-scan-source/.git"
 if [ -d "$HOST_PATH_GIT_DIR" ]; then
+    cd /bugaudit-workspace/bugaudit-scan-source
     java -jar /bugaudit-workspace/bugaudit-runner.jar
 else
     echo "No git repository was found. Run this inside a local git repository."
