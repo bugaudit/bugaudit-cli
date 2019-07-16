@@ -17,7 +17,7 @@ then
     echo "Attempting to remove any docker instances of BugAudit Runner:"
     docker rm bugaudit-runner
     docker pull bugaudit/bugaudit-runner
-    docker run -ti \
+    docker run \
     -e GIT_REPO \
     -e GIT_BRANCH \
     -e SSH_PRIVATE_KEY_FILE \
