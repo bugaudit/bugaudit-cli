@@ -12,11 +12,17 @@ then
             export BUGAUDIT_CONFIG_LOCAL_FILE="$BUGAUDIT_CONFIG"
         fi
     fi
+    if [ -z "$BUGAUDIT_CONTAINER" ]; then
+        export BUGAUDIT_CONTAINER="bugaudit-container"
+        echo "BUGAUDIT_CONTAINER environment variable was not set."
+        echo "Using default container name: $BUGAUDIT_CONTAINER"
+    fi
     echo "Attempting to kill any running docker instances of BugAudit Runner:"
-    docker kill bugaudit-runner
+    docker kill $BUGAUDIT_CONTAINER
     echo "Attempting to remove any docker instances of BugAudit Runner:"
-    docker rm bugaudit-runner
+    docker rm $BUGAUDIT_CONTAINER
     docker pull bugaudit/bugaudit-runner
+    echo "Running container: $BUGAUDIT_CONTAINER"
     docker run \
     -e GIT_REPO \
     -e GIT_BRANCH \
@@ -36,7 +42,7 @@ then
     -e BUGAUDIT_SUBSCRIBERS \
     -e BUGAUDIT_SCANNER_CONFIG \
     -e BUGAUDIT_LANG \
-    --name bugaudit-runner \
+    --name $BUGAUDIT_CONTAINER \
     -v $LOCAL_DIR_PATH:/bugaudit-host-dir \
     -v $BUGAUDIT_CONFIG_LOCAL_FILE:/bugaudit-config-dir/bugaudit-config.json \
     -v $SSH_PRIVATE_KEY:/bugaudit-ssh-key/ssh-priv-key bugaudit/bugaudit-runner
