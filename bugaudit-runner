@@ -10,6 +10,7 @@ if [ -f "$SSH_PRIVATE_KEY_FILE" ]; then
 fi
 
 if [ ! -z "$BUGAUDIT_CONFIG" ]; then
+    echo "BugAudit Config: $BUGAUDIT_CONFIG"
     if [[ $BUGAUDIT_CONFIG != http* ]]; then
         export BUGAUDIT_CONFIG_FILE_MOUNT_PATH="/bugaudit-config-dir/bugaudit-config.json"
         if [ -f "$BUGAUDIT_CONFIG_FILE_MOUNT_PATH" ]; then
