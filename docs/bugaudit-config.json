@@ -1,125 +1,71 @@
 {
+  "trackerName": "Jira",
+  "project": "TEST",
+  "issueType": "Bug",
   "summaryUpdateAllowed": true,
   "descriptionUpdateAllowed": true,
+  "labelUpdateAllowed": true,
   "reprioritizeAllowed": true,
-  "deprioritizeAllowed": false,
+  "deprioritizeAllowed": true,
   "priorityMap": {
     "Urgent": 1,
     "High": 2,
     "Medium": 3,
     "Low": 4
   },
+  "customFields": {
+    "cf_source": "BugAudit"
+  },
+  "users": {
+    "assignee": "mail@example.com",
+    "subscibers": [
+      "anothermail@example.com",
+      "test@test.com"
+    ]
+  },
   "transitions": {
-    "In Testing (Branch)": [
-      "Reopened",
-      "Verified in Branch"
-    ],
-    "Risk Accepted": [
-      "Reopened",
-      "In Progress"
-    ],
-    "Done": [
-      "Reopened",
-      "Security Verification In Progress"
-    ],
-    "Security Verified": [
-      "Closed",
-      "Reporter verification"
-    ],
-    "Reopened": [
-      "Risk Accepted",
+    "Open": [
       "In Progress",
       "Invalid"
-    ],
-    "In Testing (Prestaging)": [
-      "Reopened",
-      "Verified in pre-staging",
-      "Deployed to few customers"
-    ],
-    "Reporter verification": [
-      "Closed"
-    ],
-    "Deferred": [
-      "Reopened"
-    ],
-    "Security Verification In Progress": [
-      "Security Verified"
-    ],
-    "Verified in pre-staging": [
-      "In Testing (Staging)",
-      "Deployed to few customers"
     ],
     "In Progress": [
-      "Risk Accepted",
-      "In Review "
-    ],
-    "In Review ": [
-      "Risk Accepted",
-      "Dev Complete",
-      "Review Changes Required",
-      "In Progress"
-    ],
-    "Available to all customers": [
-      "Done"
-    ],
-    "Open": [
-      "Risk Accepted",
-      "In Progress",
+      "Done",
       "Invalid"
-    ],
-    "On Hold ": [
-      "In Progress"
-    ],
-    "Ready to Test": [
-      "In Testing (Branch)",
-      "Reopened"
-    ],
-    "In Testing (Staging)": [
-      "Reopened",
-      "Deployed to few customers"
-    ],
-    "Dev Complete": [
-      "On Hold ",
-      "Ready to Test"
-    ],
-    "Closed": [
-      "Reopened",
-      "Invalid"
-    ],
-    "Review Changes Required": [
-      "In Progress"
-    ],
-    "Verified in Branch": [
-      "In Testing (Prestaging)"
-    ],
-    "Deployed to few customers": [
-      "Available to all customers"
     ],
     "Invalid": [
-      "Reopened"
+      "Closed"
+    ],
+    "Done": [
+      "Verified",
+      "Open"
+    ],
+    "Verified": [
+      "Closed"
+    ],
+    "Closed": [
+      "Open"
     ]
   },
   "openStatuses": [
-    "Reopened",
+    "In Progress",
     "Open"
   ],
   "resolvedStatuses": [
-    "Deployed to few customers",
-    "Available to all customers",
+    "Verified",
     "Done"
   ],
   "closedStatuses": [
-    "Closed",
-    "Security Verified"
+    "Closed"
   ],
   "ignorableLabels": [
+    "bugaudit-ignore",
+    "bugaudit-skip"
   ],
   "ignorableStatuses": [
-    "Risk Accepted",
     "Invalid"
   ],
   "toOpen": {
-    "statusTransferable": false,
+    "statusTransferable": true,
     "commentable": true,
     "commentInterval": 30
   },

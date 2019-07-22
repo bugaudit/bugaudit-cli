@@ -1,9 +1,9 @@
 package me.shib.bugaudit.cli;
 
 import me.shib.bugaudit.BugAudit;
+import me.shib.bugaudit.commons.BugAuditException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public final class Launcher {
@@ -64,7 +64,7 @@ public final class Launcher {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws BugAuditException {
         if (!areAllRequiredVariablesSet()) {
             showHelpMenu();
         } else {
@@ -86,14 +86,14 @@ public final class Launcher {
     }
 
     private enum GitVars {
-        GIT_REPO(new String[]{"The remote URL of the Git repository to run the scan"}),
-        GIT_BRANCH(new String[]{"The Git branch or commit over which the scan has to be run [Optional]"}),
-        SSH_PRIVATE_KEY(new String[]{"The path to SSH Private Key in local machine (not container)",
+        BUGAUDIT_GIT_REPO(new String[]{"The remote URL of the Git repository to run the scan"}),
+        BUGAUDIT_GIT_BRANCH(new String[]{"The Git branch or commit over which the scan has to be run [Optional]"}),
+        BUGAUDIT_SSH_PRIVATE_KEY(new String[]{"The path to SSH Private Key in host machine",
                 "If not set, the default key will be automatically used",
                 "The public key counterpart should be set in your Git Profile/Repo",
                 "[GitHub: https://github.com/settings/keys]",
                 "[GitLab: https://gitlab.com/profile/keys]"}),
-        SSH_PRIVATE_KEY_PASSPHRASE(new String[]{"The passphrase used to access the encrypted SSH private key"});
+        BUGAUDIT_SSH_KEY_PASSPHRASE(new String[]{"The passphrase used to access the encrypted SSH private key"});
         private String[] descriptions;
 
         GitVars(String[] descriptions) {
