@@ -28,8 +28,11 @@ if [ ! -z "$BUGAUDIT_GIT_REPO" ]; then
     if [[ $BUGAUDIT_GIT_REPO == http* ]]; then
         echo "Please provide a valid SSH based clone URI through BUGAUDIT_GIT_REPO"
     else
-
-        git clone $BUGAUDIT_GIT_REPO bugaudit-scan-source
+        if [ ! -z "$BUGAUDIT_GIT_BRANCH" ]; then
+            git clone --depth 1 -b $BUGAUDIT_GIT_BRANCH $BUGAUDIT_GIT_REPO bugaudit-scan-source
+        else
+            git clone --depth 1 $BUGAUDIT_GIT_REPO bugaudit-scan-source
+        fi
     fi
 else
     echo "BUGAUDIT_GIT_REPO was not provided, looking into host-local directory"
