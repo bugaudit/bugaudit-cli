@@ -17,6 +17,7 @@ then
         echo "BUGAUDIT_CONTAINER environment variable was not set."
         echo "Using default container name: $BUGAUDIT_CONTAINER"
     fi
+    BUGAUDIT_CONTAINER=${BUGAUDIT_CONTAINER// /_}
     echo "Attempting to kill any running docker instances of BugAudit Runner:"
     docker kill $BUGAUDIT_CONTAINER
     echo "Attempting to remove any docker instances of BugAudit Runner:"
