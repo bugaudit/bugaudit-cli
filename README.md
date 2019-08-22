@@ -1,5 +1,5 @@
 # BugAudit CLI
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/me.shib.bugaudit/bugaudit-cli/badge.svg)](https://maven-badges.herokuapp.com/maven-central/me.shib.bugaudit/bugaudit-cli)
+[![Download](https://api.bintray.com/packages/bugaudit/maven/bugaudit-cli/images/download.svg)](https://bintray.com/bugaudit/maven/bugaudit-cli/_latestVersion)
 [![Build Status](https://gitlab.com/bugaudit/bugaudit-cli/badges/master/pipeline.svg)](https://gitlab.com/bugaudit/bugaudit-cli/pipelines)
 
 Command Line Interface for BugAudit
