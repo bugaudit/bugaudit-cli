@@ -209,6 +209,11 @@
             <artifactId>bugaudit-scanner-retirejs</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>me.shib.bugaudit</groupId>
+            <artifactId>bugaudit-scanner-dependencycheck</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
