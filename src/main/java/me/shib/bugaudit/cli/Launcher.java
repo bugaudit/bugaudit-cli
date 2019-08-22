@@ -102,6 +102,9 @@ public final class Launcher {
     }
 
     private enum RequiredVars {
+        BUGAUDIT_CONFIG(new String[]{"The location (URL or local file) of the config file.",
+                "This contains the workflow and other rules the issues have to be maintained.",
+                "[Refer default config: https://bugaudit.github.io/bugaudit-cli/bugaudit-config.json]"}),
         BUGAUDIT_TRACKER_NAME(new String[]{"The name of the Issue tracker [Jira/Freshrelease]"}),
         BUGAUDIT_TRACKER_ENDPOINT(new String[]{"The URL/endpoint of the Issue tracker",
                 "[Example: https://jira.example.com]"}),
@@ -124,16 +127,14 @@ public final class Launcher {
     }
 
     private enum OptionalVars {
-        BUGAUDIT_CONFIG(new String[]{"The location (URL or local file) of the config file.",
-                "This contains the workflow and other rules the issues have to be maintained.",
-                "[Refer default config: https://bugaudit.github.io/bugaudit-cli/bugaudit-config.json]"}),
+        BUGAUDIT_BUILD_SCRIPT(new String[]{"Specifying a build script will bring more context to the bug identification",
+                "[Example: mvn clean install (or) bundle install]"}),
         BUGAUDIT_ASSIGNEE(new String[]{"The user to whom the new issues have to be assigned",
                 "[Example: somedude@example.com]"}),
         BUGAUDIT_SCANNER_DIR(new String[]{"[TRUE/FALSE] Performs a scan inside a specified subdirectory in the repository"}),
         BUGAUDIT_TRACKER_READONLY(new String[]{"[TRUE/FALSE] Performs a real scan and mocks the issue tracker updates"}),
         BUGAUDIT_SUBSCRIBERS(new String[]{"Comma separated values users who are required to watch or subscribe to the created issues",
                 "(Might not be available in all issue trackers)"}),
-        BUGAUDIT_SCANNER_CONFIG(new String[]{"Any scanner specific configuration (Not required mostly)"}),
         BUGAUDIT_LANG(new String[]{"The language for which the scanner has to run for",
                 "[Example: Ruby, JavaScript]",
                 "(BugAudit identifies the language automatically by default anyway)"});
