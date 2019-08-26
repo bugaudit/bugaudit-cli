@@ -39,7 +39,7 @@ else
     export BUGAUDIT_HOST_GIT_DIR="/bugaudit-host-dir/.git"
     if [ -d "$BUGAUDIT_HOST_GIT_DIR" ]; then
         echo "Making a copy of local repo from host directory"
-        cp -r /bugaudit-host-dir/ /bugaudit-workspace/
+        cp -a /bugaudit-host-dir/. /bugaudit-workspace/
     fi
 fi
 
