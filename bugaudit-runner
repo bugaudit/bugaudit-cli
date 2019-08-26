@@ -29,9 +29,9 @@ if [ ! -z "$BUGAUDIT_GIT_REPO" ]; then
         echo "Please provide a valid SSH based clone URI through BUGAUDIT_GIT_REPO"
     else
         if [ ! -z "$BUGAUDIT_GIT_BRANCH" ]; then
-            git clone --depth 1 -b $BUGAUDIT_GIT_BRANCH $BUGAUDIT_GIT_REPO bugaudit-scan-source
+            git clone --depth 1 -b $BUGAUDIT_GIT_BRANCH $BUGAUDIT_GIT_REPO .
         else
-            git clone --depth 1 $BUGAUDIT_GIT_REPO bugaudit-scan-source
+            git clone --depth 1 $BUGAUDIT_GIT_REPO .
         fi
     fi
 else
@@ -39,14 +39,14 @@ else
     export BUGAUDIT_HOST_GIT_DIR="/bugaudit-host-dir/.git"
     if [ -d "$BUGAUDIT_HOST_GIT_DIR" ]; then
         echo "Making a copy of local repo from host directory"
-        cp -r /bugaudit-host-dir/ /bugaudit-workspace/bugaudit-scan-source/
+        cp -r /bugaudit-host-dir/ /bugaudit-workspace/
     fi
 fi
 
-export BUGAUDIT_SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/bugaudit-scan-source/.git"
+export BUGAUDIT_SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/.git"
 if [ -d "$BUGAUDIT_SCAN_SOURCE_GIT_DIR" ]; then
-    cd /bugaudit-workspace/bugaudit-scan-source
-    java -jar /bugaudit-workspace/bugaudit-runner.jar
+    cd /bugaudit-workspace
+    bugaudit
 else
     echo "No git repository was found. Run this inside a local git repository."
     echo "Alternatively you can also provide remote SSH Git repo URL through BUGAUDIT_GIT_REPO environment variable"

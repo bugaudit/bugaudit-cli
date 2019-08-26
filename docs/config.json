@@ -1,7 +1,4 @@
 {
-  "trackerName": "Jira",
-  "project": "TEST",
-  "issueType": "Bug",
   "summaryUpdateAllowed": true,
   "descriptionUpdateAllowed": true,
   "labelUpdateAllowed": true,

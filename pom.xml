@@ -74,7 +74,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <finalName>bugaudit-runner</finalName>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -136,11 +136,16 @@
                         <configuration>
                             <deleteRelease>true</deleteRelease>
                             <releaseName>${project.artifactId} - ${project.version}</releaseName>
-                            <description>Use the maven dependency
-                                [![Maven
-                                Central](https://maven-badges.herokuapp.com/maven-central/${project.groupId}/${project.artifactId}/badge.svg)](https://maven-badges.herokuapp.com/maven-central/${project.groupId}/${project.artifactId})
-                            </description>
+                            <description>Read the project's `README.md` for configuration instructions.</description>
                             <tag>${project.version}</tag>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>bugaudit-runner.jar</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
                         </configuration>
                     </execution>
                 </executions>

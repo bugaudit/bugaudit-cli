@@ -19,8 +19,9 @@ Maven Build:
     paths:
       - target/bugaudit-runner.jar
       - bugaudit-runner
+      - bugaudit-command
 
-Publishing Docker Image:
+Docker Build:
   stage: deploy
   script:
     - sh docker-builder

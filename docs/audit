@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
+export BUGAUDIT_DOCKER_IMAGE="bugaudit/bugaudit:0.2"
 DOCKER_VERSION_RESPONSE=$(docker -v)
 EXPECTED_RESPONSE="Docker version "
 if test "${DOCKER_VERSION_RESPONSE#*$EXPECTED_RESPONSE}" != "$DOCKER_VERSION_RESPONSE"
 then
-    export BUGAUDIT_HOST_WORKDIR=`pwd`
     if [ -z "$BUGAUDIT_SSH_PRIVATE_KEY" ]; then
         export BUGAUDIT_SSH_PRIVATE_KEY="$HOME/.ssh/id_rsa"
     fi
@@ -12,18 +12,18 @@ then
             export BUGAUDIT_CONFIG_LOCAL_FILE="$BUGAUDIT_CONFIG"
         fi
     fi
-    if [ -z "$BUGAUDIT_CONTAINER" ]; then
+    if [ -z "$BUGAUDIT_CONTAINER_NAME" ]; then
         export BUGAUDIT_CONTAINER="bugaudit-container"
         echo "BUGAUDIT_CONTAINER environment variable was not set."
-        echo "Using default container name: $BUGAUDIT_CONTAINER"
+        echo "Using default container name: $BUGAUDIT_CONTAINER_NAME"
     fi
     BUGAUDIT_CONTAINER=${BUGAUDIT_CONTAINER// /_}
     echo "Attempting to kill any running docker instances of BugAudit Runner:"
-    docker kill $BUGAUDIT_CONTAINER
+    docker kill $BUGAUDIT_CONTAINER_NAME
     echo "Attempting to remove any docker instances of BugAudit Runner:"
-    docker rm $BUGAUDIT_CONTAINER
-    docker pull bugaudit/bugaudit-runner
-    echo "Running container: $BUGAUDIT_CONTAINER"
+    docker rm $BUGAUDIT_CONTAINER_NAME
+    docker pull $BUGAUDIT_DOCKER_IMAGE
+    echo "Running container: $BUGAUDIT_CONTAINER_NAME"
     BUGAUDIT_COMMAND="docker run "
     BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -e BUGAUDIT_GIT_REPO"
     BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -e BUGAUDIT_GIT_BRANCH"
@@ -42,12 +42,12 @@ then
     BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -e BUGAUDIT_SUBSCRIBERS"
     BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -e BUGAUDIT_SCANNER_CONFIG"
     BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -e BUGAUDIT_LANG"
-    BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND --name $BUGAUDIT_CONTAINER"
-    BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -v $BUGAUDIT_HOST_WORKDIR:/bugaudit-host-dir"
+    BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND --name $BUGAUDIT_CONTAINER_NAME"
+    BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -v $(pwd):/bugaudit-host-dir"
     if [ -f "$BUGAUDIT_CONFIG_LOCAL_FILE" ]; then
         BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -v $BUGAUDIT_CONFIG_LOCAL_FILE:/bugaudit-config-dir/bugaudit-config.json"
     fi
-    BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -v $BUGAUDIT_SSH_PRIVATE_KEY:/bugaudit-ssh-key/ssh-priv-key bugaudit/bugaudit-runner"
+    BUGAUDIT_COMMAND="$BUGAUDIT_COMMAND -v $BUGAUDIT_SSH_PRIVATE_KEY:/bugaudit-ssh-key/ssh-priv-key $BUGAUDIT_DOCKER_IMAGE"
     echo $BUGAUDIT_COMMAND | bash
 else
     echo "Please install docker client before you begin."

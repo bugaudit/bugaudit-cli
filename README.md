@@ -13,6 +13,6 @@ Scans the repository you specify and tracks the issue in your preferred issue tr
 ### How to start?
 Run the following in your terminal and you'll be guided from there
 ```bash
-curl -s https://bugaudit.github.io/bugaudit-cli/bugaudit-script | bash
+curl -s https://bugaudit.github.io/bugaudit/audit | bash
 ```
-[Refer this](https://bugaudit.github.io/bugaudit-cli/bugaudit-config.json) for a sample config file
+[Refer this](https://bugaudit.github.io/bugaudit/config.json) for a sample config file

@@ -104,7 +104,7 @@ public final class Launcher {
     private enum RequiredVars {
         BUGAUDIT_CONFIG(new String[]{"The location (URL or local file) of the config file.",
                 "This contains the workflow and other rules the issues have to be maintained.",
-                "[Refer default config: https://bugaudit.github.io/bugaudit-cli/bugaudit-config.json]"}),
+                "[Refer default config: https://bugaudit.github.io/bugaudit/config.json]"}),
         BUGAUDIT_TRACKER_NAME(new String[]{"The name of the Issue tracker [Jira/Freshrelease]"}),
         BUGAUDIT_TRACKER_ENDPOINT(new String[]{"The URL/endpoint of the Issue tracker",
                 "[Example: https://jira.example.com]"}),
