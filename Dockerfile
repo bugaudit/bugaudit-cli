@@ -24,7 +24,7 @@ COPY docker-git-config /root/.ssh/config
 RUN chmod 400 /root/.ssh/config
 ADD /target/bugaudit-runner.jar /bugaudit-executables/bugaudit-runner.jar
 ADD /bugaudit-runner /bugaudit-executables/bugaudit-runner
-RUN chmod +x /bugaudit-workspace/bugaudit-runner
+RUN chmod +x /bugaudit-executables/bugaudit-runner
 RUN ln -s /bugaudit-executables/bugaudit-runner /bin/bugaudit-runner
 ADD /bugaudit-command /bugaudit-executables/bugaudit-command
 RUN chmod +x /bugaudit-executables/bugaudit-command
