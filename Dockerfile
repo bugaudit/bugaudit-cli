@@ -32,3 +32,4 @@ RUN ln -s /bugaudit-executables/bugaudit-command /bin/bugaudit
 RUN dependency-check -s /tmp/
 RUN rm dependency-check-report.html
 RUN bundle audit update
+RUN retire update

@@ -45,7 +45,6 @@ fi
 
 export BUGAUDIT_SCAN_SOURCE_GIT_DIR="/bugaudit-workspace/.git"
 if [ -d "$BUGAUDIT_SCAN_SOURCE_GIT_DIR" ]; then
-    cd /bugaudit-workspace
     bugaudit
 else
     echo "No git repository was found. Run this inside a local git repository."
