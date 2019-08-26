@@ -8,12 +8,13 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 stages:
-  - build
-  - deploy
+  - "Maven Build"
+  - "BugAudit Platform Build"
+  - "BugAudit Runner Build"
 
-Maven Build:
+Executable JAR Builder:
   image: maven:3-jdk-8
-  stage: build
+  stage: "Maven Build"
   script: mvn $MAVEN_CLI_OPTS clean deploy
   artifacts:
     paths:
@@ -21,9 +22,13 @@ Maven Build:
       - bugaudit-runner
       - bugaudit-command
 
-Docker Build:
-  stage: deploy
+BugAudit Platform Docker Image Builder:
+  stage: "BugAudit Platform Build"
   script:
     - sh docker-builder
   only:
     - master
+
+BugAudit Runner Build Trigger:
+  stage: "BugAudit Runner Build"
+  trigger: bugaudit/bugaudit
