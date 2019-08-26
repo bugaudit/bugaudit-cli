@@ -8,11 +8,15 @@ Command Line Interface for BugAudit
 Install the latest stable version of docker client
 
 ### What does it do?
-Scans the repository you specify and tracks the issue in your preferred issue tracking system
+Provides a docker container with all platform dependencies bundled to run BugAudit
 
-### How to start?
-Run the following in your terminal and you'll be guided from there
+### Where to begin?
+Run the following in your terminal to get into the container.
 ```bash
-curl -s https://bugaudit.github.io/bugaudit/audit | bash
+docker run -ti bugaudit-platform
+```
+Copy or mount your source code into `/bugaudit-worspace/` directory inside the container and then just run the following.
+```bash
+bugaudit
 ```
 [Refer this](https://bugaudit.github.io/bugaudit/config.json) for a sample config file
