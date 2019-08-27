@@ -131,7 +131,7 @@ public final class Launcher {
                 "[Example: mvn clean install (or) bundle install]"}),
         BUGAUDIT_ASSIGNEE(new String[]{"The user to whom the new issues have to be assigned",
                 "[Example: somedude@example.com]"}),
-        BUGAUDIT_SCANNER_DIR(new String[]{"[TRUE/FALSE] Performs a scan inside a specified subdirectory in the repository"}),
+        BUGAUDIT_SCAN_DIR(new String[]{"Performs a scan inside a specified subdirectory in the repository"}),
         BUGAUDIT_TRACKER_READONLY(new String[]{"[TRUE/FALSE] Performs a real scan and mocks the issue tracker updates"}),
         BUGAUDIT_SUBSCRIBERS(new String[]{"Comma separated values users who are required to watch or subscribe to the created issues",
                 "(Might not be available in all issue trackers)"}),
