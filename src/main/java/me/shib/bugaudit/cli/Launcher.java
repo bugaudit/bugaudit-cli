@@ -136,8 +136,8 @@ public final class Launcher {
         BUGAUDIT_SUBSCRIBERS(new String[]{"Comma separated values users who are required to watch or subscribe to the created issues",
                 "(Might not be available in all issue trackers)"}),
         BUGAUDIT_LANG(new String[]{"The language for which the scanner has to run for",
-                "[Example: Ruby, JavaScript]",
-                "(BugAudit identifies the language automatically by default anyway)"});
+                "[Example: Ruby, JavaScript, Java]",
+                "If not specified, BugAudit identifies the language automatically"});
 
         private String[] descriptions;
 
