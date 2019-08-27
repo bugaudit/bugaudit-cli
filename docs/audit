@@ -7,6 +7,11 @@ then
     if [ -z "$BUGAUDIT_SSH_PRIVATE_KEY" ]; then
         export BUGAUDIT_SSH_PRIVATE_KEY="$HOME/.ssh/id_rsa"
     fi
+    if [ -f "$BUGAUDIT_SSH_PRIVATE_KEY" ]; then
+        echo "Using SSH Key: $BUGAUDIT_SSH_PRIVATE_KEY"
+    else
+        echo "SSH Private Key File $BUGAUDIT_SSH_PRIVATE_KEY was not found"
+    fi
     if [[ $BUGAUDIT_CONFIG != http* ]]; then
         if [ -f "$BUGAUDIT_CONFIG" ]; then
             export BUGAUDIT_CONFIG_LOCAL_FILE="$BUGAUDIT_CONFIG"
