@@ -4,6 +4,7 @@ import me.shib.bugaudit.BugAudit;
 import me.shib.bugaudit.commons.BugAuditException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public final class Launcher {
@@ -64,7 +65,7 @@ public final class Launcher {
         return true;
     }
 
-    public static void main(String[] args) throws BugAuditException {
+    public static void main(String[] args) throws BugAuditException, IOException, InterruptedException {
         if (!areAllRequiredVariablesSet()) {
             showHelpMenu();
         } else {
