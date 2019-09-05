@@ -32,3 +32,5 @@ BugAudit Platform Docker Image Builder:
 BugAudit Runner Build Trigger:
   stage: "BugAudit Runner Build"
   trigger: bugaudit/bugaudit
+  only:
+    - master
