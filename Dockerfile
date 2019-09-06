@@ -4,7 +4,7 @@ RUN apk update && apk upgrade
 RUN apk add curl wget bash
 RUN apk add openssh-client
 RUN apk add git
-RUN apk add openjdk8-jre
+RUN apk add openjdk8
 RUN apk add maven
 RUN apk add ruby ruby-io-console ruby-bundler ruby-json
 RUN gem install rdoc --no-document
