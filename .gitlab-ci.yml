@@ -9,10 +9,10 @@ variables:
 
 stages:
   - "Maven Build"
-  - "BugAudit Platform Build"
-  - "BugAudit Runner Build"
+  - "Docker Build"
+  - "Downstream Triggers"
 
-Executable JAR Builder:
+BugAudit CLI JAR Build:
   image: maven:3-jdk-8
   stage: "Maven Build"
   script: mvn $MAVEN_CLI_OPTS clean deploy
@@ -22,15 +22,15 @@ Executable JAR Builder:
       - bugaudit-runner
       - bugaudit-command
 
-BugAudit Platform Docker Image Builder:
-  stage: "BugAudit Platform Build"
+BugAudit Environment Build:
+  stage: "Docker Build"
   script:
     - sh docker-builder
   only:
     - master
 
-BugAudit Runner Build Trigger:
-  stage: "BugAudit Runner Build"
+BugAudit Runner Build:
+  stage: "Downstream Triggers"
   trigger: bugaudit/bugaudit
   only:
     - master
