@@ -17,6 +17,7 @@ BugAudit CLI JAR Build:
   stage: "Maven Build"
   script: mvn $MAVEN_CLI_OPTS clean deploy
   artifacts:
+    expire_in: 1 hour
     paths:
       - target/bugaudit-runner.jar
       - bugaudit-runner
