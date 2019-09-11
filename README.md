@@ -13,9 +13,9 @@ Provides a docker container with all platform dependencies bundled to run BugAud
 ### Where to begin?
 Run the following in your terminal to get into the container.
 ```bash
-docker run -ti bugaudit-platform
+docker run -ti bugaudit-env /bin/sh
 ```
-Copy or mount your source code into `/bugaudit-worspace/` directory inside the container and then just run the following.
+Clone your source code inside the container and then run the following.
 ```bash
 bugaudit
 ```
