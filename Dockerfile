@@ -9,3 +9,4 @@ RUN ln -s /bugaudit-executables/bugaudit-runner /bin/bugaudit-runner
 ADD /bugaudit-command /bugaudit-executables/bugaudit-command
 RUN chmod +x /bugaudit-executables/bugaudit-command
 RUN ln -s /bugaudit-executables/bugaudit-command /bin/bugaudit
+CMD ["bugaudit-runner"]

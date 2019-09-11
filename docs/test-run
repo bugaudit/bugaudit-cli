@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+curl -s https://bugaudit.github.io/bugaudit-cli/audit | bash -s bugaudit-test

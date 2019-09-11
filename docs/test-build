@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+BUGAUDIT_VERSION="0.2"
+git clone https://gitlab.com/bugaudit/bugaudit-cli.git /tmp/bugaudit-cli
+cd /tmp/bugaudit-cli
+git pull
+mvn clean install
+docker build --build-arg BUGAUDIT_VERSION=$BUGAUDIT_VERSION -t bugaudit-test .
