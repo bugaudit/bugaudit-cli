@@ -5,6 +5,7 @@ services:
 variables:
   DOCKER_DRIVER: overlay
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  DOCKER_TLS_CERTDIR: ""
 
 stages:
   - "Build"
